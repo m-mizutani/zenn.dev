@@ -1,4 +1,4 @@
-# 目次
+# アドベントカレンダー2021（OPA/Rego）の目次
 
 - ✅ [OPA概論](../articles/69553e82b34c20.md)
 - [Policy as Codeとは](../articles/94e456baf9ffec.md)
