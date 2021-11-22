@@ -2,7 +2,7 @@
 title: "Policy as Codeとは"
 emoji: "👋"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: ["opa", "rego"]
+topics: ["OPA", "Rego"]
 published: false
 ---
 
