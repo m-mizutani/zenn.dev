@@ -16,7 +16,7 @@
 - [OPAサーバの運用](../articles/e9d202332a64c9.md)
 - ✅ [Go言語によるRego runtimeの組み込み](../articles/ca51a5e5da72f4.md)
 - [OPAサーバをGCP Cloud Runへデプロイ](../articles/f305204605a7cf.md)
-- [OPAサーバをAWS Lambdaへデプロイ](../articles/759d47f17ebd2e.md)
+- ✅ [OPAをAWS Lambdaへデプロイ](../articles/759d47f17ebd2e.md)
 - [OPA/RegoのCI・CD](../articles/e7d158c6375ec3.md)
 - [OPAの拡張（カスタム関数）](articles/647dcd83039503.md)
 - [OPAの活用事例](../articles/a94734799f21ef.md)
