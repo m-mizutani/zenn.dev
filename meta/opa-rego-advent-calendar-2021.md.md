@@ -4,6 +4,7 @@
 
 - ✅ [OPA概論](../articles/69553e82b34c20.md)
 - ✅ [Policy as Codeとは](../articles/94e456baf9ffec.md)
+- ✅ [PolicyとData](../articles/752b9234af7cc8.md)
 - ✅ [Regoの基礎（概要編）](../articles/5b1cd56b4b3f4f.md)
 - ✅ [Regoの基礎（結果の出力編）](../articles/c24085137ca798.md)
 - ✅ [Regoの基礎（イテレーション編）](../articles/b0d3c7f7377609.md)
