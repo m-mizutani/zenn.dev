@@ -1,5 +1,7 @@
 # アドベントカレンダー2021（OPA/Rego）
 
+https://adventar.org/calendars/6601
+
 ## 目次
 
 1. ✅ [OPA概論](../articles/69553e82b34c20.md)
