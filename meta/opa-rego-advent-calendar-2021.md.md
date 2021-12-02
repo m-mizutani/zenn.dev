@@ -14,6 +14,7 @@ https://adventar.org/calendars/6601
 1. [Regoの基礎（サンプル編）](../articles/a8ce41c66a2fcc.md)
 1. ✅ [Regoチートシート](../articles/07525213a6c3ff.md)
 1. ✅ [Regoのテスト](../articles/85c9992f601068.md)
+1. [Regoのデバッグ](../articles/89ce7831c245ef.md)
 1. [OPAコマンドの利用](../articles/f00d3ca12e4102.md)
 1. [OPAのデプロイ・利用パターン](../articles/0b401a4be783e8.md)
 1. [OPAサーバの運用](../articles/e9d202332a64c9.md)
