@@ -6,8 +6,8 @@ https://adventar.org/calendars/6601
 
 1. ✅ [OPA概論](../articles/69553e82b34c20.md)
 1. ✅ [Policy as Codeとは](../articles/94e456baf9ffec.md)
-1. ✅ [PolicyとData](../articles/752b9234af7cc8.md)
 1. ✅ [Regoの基礎（概要編）](../articles/5b1cd56b4b3f4f.md)
+1. ✅ [Regoの基礎（PolicyとData）](../articles/752b9234af7cc8.md)
 1. ✅ [Regoの基礎（結果の出力編）](../articles/c24085137ca798.md)
 1. ✅ [Regoの基礎（イテレーション編）](../articles/b0d3c7f7377609.md)
 1. 📝 [Regoの基礎（パッケージ編）](../articles/2fccdcd07b874e.md)
