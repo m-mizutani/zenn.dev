@@ -8,7 +8,7 @@ published: false
 
 この記事は[OPA/Regoアドベントカレンダー](https://adventar.org/calendars/6601)のN日目です。
 
-今回は具体的なユースケースに基づいてRegoの記述例を紹介したいと思います。公式でも[Kubernetes を題材に使用例を紹介](https://www.openpolicyagent.org/docs/latest/kubernetes-primer/)しているので、あわせてご参照ください。
+今回は具体的なユースケースに基づいてRegoの記述例を紹介したいと思います。公式でも既存のインテグレーション事例がいくつか紹介されており、[Kubernetes を題材に使用例](https://www.openpolicyagent.org/docs/latest/kubernetes-primer/)も解説されています。OPAは汎用的なポリシーで
 
 ## Trivy
 
