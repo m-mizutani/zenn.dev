@@ -1,6 +1,6 @@
 ---
 title: "Regoの記述例1 (OPAサーバの認可とテスト)"
-emoji: "🤖"
+emoji: "📙"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["opa", "rego"]
 published: true
