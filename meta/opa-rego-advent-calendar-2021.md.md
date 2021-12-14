@@ -17,7 +17,7 @@ https://adventar.org/calendars/6601
 1. ✅ [OPAコマンドの利用](../articles/f00d3ca12e4102.md)
 1. ✅ [Regoの記述例1 (OPAサーバの認可とテスト)](../articles/a8ce41c66a2fcc.md)
 1. ✅ [Regoの記述例2 (クラウドサービスの監視)](../articles/24a74292150fff.md)
-1. ✅ [Regoのデバッグ](../articles/89ce7831c245ef.md)
+1. ✅ [Regoのデバッグ (trace/print)](../articles/89ce7831c245ef.md)
 1. ✅ [OPAのデプロイアーキテクチャ例](../articles/0b401a4be783e8.md)
 1. [OPAサーバの運用](../articles/e9d202332a64c9.md)
 1. ✅ [Go言語によるRego runtimeの組み込み](../articles/ca51a5e5da72f4.md)
