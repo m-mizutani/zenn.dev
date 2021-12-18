@@ -1,0 +1,13 @@
+{
+  "input": {
+    "Results": [
+      {
+        "Vulnerabilities": [
+          {
+            "VulnerabilityID": "GHSA-g2q5-5433-rhrf"
+          }
+        ]
+      }
+    ]
+  }
+}

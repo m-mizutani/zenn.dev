@@ -21,7 +21,7 @@ https://adventar.org/calendars/6601
 1. ✅ [OPAのデプロイアーキテクチャ例](../articles/0b401a4be783e8.md)
 1. ✅ [Go言語によるRego runtimeの組み込み](../articles/ca51a5e5da72f4.md)
 1. ✅ [OPAをAWS Lambdaへデプロイ](../articles/759d47f17ebd2e.md)
-1. [OPAサーバをGCP Cloud Runへデプロイ](../articles/f305204605a7cf.md)
+1. ✅ [OPAサーバをGCP Cloud Runへデプロイ](../articles/f305204605a7cf.md)
 1. [OPA/RegoのCI・CD](../articles/e7d158c6375ec3.md)
 1. ✅ [GitHub Action で Trivy + Rego による脆弱性チェック](../articles/a8f8aac0ae6fb9.md)
 1. [ポリシーを共有するためのGitHub Actionを作る](../articles/1311288523dad2.md)
