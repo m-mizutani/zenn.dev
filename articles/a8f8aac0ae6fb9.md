@@ -1,16 +1,16 @@
 ---
-title: "GitHub Action で Trivy + Rego による脆弱性チェック"
-emoji: "🐥"
+title: "GitHub Action で Trivy + OPA/Rego による脆弱性管理"
+emoji: "⚙️"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["opa", "rego", "trivy", "githubactions"]
-published: false
+published: true
 ---
 
-この記事は[OPA/Regoアドベントカレンダー](https://adventar.org/calendars/6601)のN日目です。
+この記事は[OPA/Regoアドベントカレンダー](https://adventar.org/calendars/6601)の19日目です。
 
-今回は GitHub Actions で [Trivy](https://aquasecurity.github.io/trivy) を用いてOSSパッケージの脆弱性検査をした際に、カスタムポリシーによってCIを落とすような仕組みについて紹介します。
+今回は GitHub Actions で [Trivy](https://aquasecurity.github.io/trivy) を用いてOSSパッケージの脆弱性検査をした際に、カスタムポリシーによってCIを落とすような仕組みについて紹介[^octovy]します。
 
-もともとコンテナイメージの脆弱性スキャナとして開発されていたTrivyですが、最近は[ファイルシステムにあるパッケージシステムの脆弱性をスキャンする機能](https://github.com/aquasecurity/trivy/releases/tag/v0.9.0)も実装されています。この機能を利用した[GitHub Actions](https://github.com/aquasecurity/trivy-action)も提供されており、自分が開発してるリポジトリで利用している外部パッケージにどのような脆弱性が含まれているかを容易に調べることができるようになっています。
+もともとコンテナイメージの脆弱性スキャナとして開発されていたTrivyですが、最近は[ファイルシステムにあるパッケージシステムの脆弱性をスキャンする機能](https://github.com/aquasecurity/trivy/releases/tag/v0.9.0)も実装されています。この機能を利用した[GitHub Actions](https://github.com/aquasecurity/trivy-action)も提供されており、自分が開発してるリポジトリで利用している外部パッケージにどのような脆弱性が含まれているかを簡単に調べることができるようになっています。
 
 またTrivy自体のオプションも多彩で、終了時に異常終了（exit codeが非ゼロ）しGitHub Actionsを失敗させ、CIを止めることもできます。例えば一定以下のSeverityしかない場合や、修正バージョンが提供されていない場合にはこれを無視してCIを通す、というような制御もできます。
 
@@ -142,7 +142,7 @@ reasons[msg] {
 
 最後の例は脆弱性の有無に関わらず、特定のパッケージの特定のバージョンを拒否するようなユースケースです。近年、オープンソースのパッケージを狙ったサプライチェーン攻撃がにわかに増加しつつあります。先日も[coaとrcという広く利用されているパッケージに悪意あるコードが埋め込まれるという事件](https://therecord.media/malware-found-in-coa-and-rc-two-npm-packages-with-23m-weekly-downloads/)がありました。こうした場合、悪意あるコードが混入したバージョンは削除され、後日Trivyなどの脆弱性検査ツールで検出できるようになります。しかし先にコードが混入したという情報だけが伝搬してくることが多く、その時点では脆弱性検査ツールでは検出できません。このような脆弱性は被害が甚大になる可能性があるため、セキュリティ担当者の立場からは一刻も早く対処する必要があります。
 
-Trivyには脆弱性検出だけでなく、スキャンしたパッケージ一覧を出力する `--list-all-pkg` オプションがあります[^list-all-pkgs]。これによって出力されたパッケージ一覧とアドホックに記述したポリシーによって深刻な影響を及ぼす可能性のある脆弱性のデプロイを水際で止めることができます。
+Trivyには脆弱性検出だけでなく、スキャンしたパッケージ一覧を出力する `--list-all-pkg` オプションがあります。これによって出力されたパッケージ一覧とアドホックに記述したポリシーによって深刻な影響を及ぼす可能性のある脆弱性のデプロイを水際で止めることができます。
 
 ```rego
 reasons[msg] {
@@ -159,5 +159,5 @@ reasons[msg] {
 
 [^cvss]: 個人的には評価する人や組織によって評価のブレが大きいため、あくまで参考程度にするのが望ましいと考えています
 [^ignore]: ちなみに特定の脆弱性だけ無視する、はTrivy単体の機能でも[.trivyignoreを使う](https://aquasecurity.github.io/trivy/v0.21.1/vulnerability/examples/filter/)ことで実現できます
-[^official]: TrivyにもRegoによるポリシー記述の機能が実装中なのですが、記事執筆時点で最新の[v0.21.1](https://aquasecurity.github.io/trivy/v0.21.1/vulnerability/examples/filter/)でもExperimental扱いなので、今回はOPAを使う方法を紹介しています。また、Trivy以外のCIにも応用できるように、という狙いもあります。
-[^list-all-pkgs]: このオプションは記事執筆時点だと trivy-action ではサポートされていないため、利用したい場合はTrivyのバイナリをGitHub Actions内で用意する必要があります
+[^official]: TrivyにもRegoによるポリシー記述の機能として `--ignore-policy` オプションが実装されています。ただ、記事執筆時点で最新の[v0.21.1](https://aquasecurity.github.io/trivy/v0.21.1/vulnerability/examples/filter/)でExperimental扱いなのと、Trivy以外のCIにも応用できるように、という狙いで今回は利用しませんでした。
+[^octovy]: 筆者は先日、[Trivy + Regoを用いたパッケージ脆弱性管理](https://speakerdeck.com/mizutani/trivy-rego) という内容で似たようなトピックについての講演をしています。この発表では組織横断で管理することを想定していますが、今回の記事ではリポジトリごとに管理するというユースケースを想定しています。
