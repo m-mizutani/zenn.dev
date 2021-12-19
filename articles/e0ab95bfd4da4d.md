@@ -3,7 +3,7 @@ title: "Regoのコーディング規約をRegoで検査する"
 emoji: "🔁"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["opa", "rego"]
-published: false
+published: true
 ---
 
 この記事は[OPA/Regoアドベントカレンダー](https://adventar.org/calendars/6601)の20日目です。
