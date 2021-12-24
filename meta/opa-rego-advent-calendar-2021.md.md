@@ -27,5 +27,5 @@ https://adventar.org/calendars/6601
 1. ✅ [GitHub Actionsから得られた結果をOPAサーバに問い合わせる](../articles/1311288523dad2.md)
 1. ✅ [OPAの拡張（カスタム関数）](../articles/647dcd83039503.md)
 1. ✅ [OPA/Regoの応用（脆弱性管理）](../articles/27e5915a362697.md)
-1. [OPA/Regoの応用（SOAR）](../articles/1755527e782183.md)
-1. [まとめ](../articles/0a74f409faa07d.md)
+1. ✅ [OPA/Regoの応用（SOAR）](../articles/1755527e782183.md)
+1. ✅ [まとめ](../articles/0a74f409faa07d.md)
