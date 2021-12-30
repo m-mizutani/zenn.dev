@@ -1,0 +1,171 @@
+---
+title: "記述例2 (クラウドサービスの監視)"
+---
+
+前章に引き続き、記述例編です。今回はクラウドサービス（AWS・GCP）のリソースやアラートの監視に使ってみた、というユースケースに基づいて記述例を紹介したいと思います。
+
+OPAは[Conftest](https://www.conftest.dev/)や[Gatekeeper](https://github.com/open-policy-agent/gatekeeper)が有名なためInfrastructure as Codeによるデプロイを止める用途という印象が強いですが、監視のためのルールを管理するポリシーエンジンとしても活用できます。
+
+今回はAWSでいくつか例を挙げてみようと思います。AWSは[AWS Config](https://aws.amazon.com/config/)によってリソースの変更を追跡できるため、これとOPAを組み合わせることでより汎用的なリソース監視の仕組みができますが、今回はわかりやすさ重視のために対象を絞った例を紹介します。AWS Configとの組み合わせについては[公式ブログ](https://aws.amazon.com/blogs/mt/using-opa-to-create-aws-config-rules/)でも事例として紹介されているので、興味のある方はそちらもご覧ください。
+
+## 例1) ECSにデプロイされたイメージが特定のレジストリからのものであることを確認する
+
+[Elastic Container Service](https://aws.amazon.com/ecs/)はコンテナイメージをデプロイしてサービスを提供しますが、意図しないコンテナイメージや悪意あるコードが含まれたコンテナイメージが混入によってリスクが生じる場合があります。例えば自社サービスを提供するだけの場合、Elastic Container Registryにプロダクトのコンテナイメージ、および必要なOSSのイメージを置いて使う形になると思われます。そうなるとその他のレジストリ上にあるイメージを使ったデプロイは不審な事象ということになります。
+
+AWS CloudWatch EventではECSでどのようなサービスがデプロイされたかの情報をLambda Functionなどで受けることができます。以下に例を示します。
+
+```json
+{
+  "version": "0",
+  "id": "3317b2af-7005-947d-b652-f55e762e571a",
+  "detail-type": "ECS Task State Change",
+  "source": "aws.ecs",
+  "detail": {
+======= snip ==========
+    "containers": [
+      {
+        "containerArn": "arn:aws:ecs:us-west-2:111122223333:container/cf159fd6-3e3f-4a9e-84f9-66cbe726af01",
+        "lastStatus": "RUNNING",
+        "name": "FargateApp",
+        "image": "111122223333.dkr.ecr.us-west-2.amazonaws.com/hello-repository:latest",
+        "imageDigest": "sha256:74b2c688c700ec95a93e478cdb959737c148df3fbf5ea706abe0318726e885e6",
+        "runtimeId": "ad64cbc71c7fb31c55507ec24c9f77947132b03d48d9961115cf24f3b7307e1e",
+      }
+======= snip ==========
+    ]
+  }
+}
+```
+
+このようにどのイメージを使ったかという情報が `detail.containers[].image` に入っています。これを検査するRegoは以下のようになります。
+
+```rego
+allowed_registries = [
+    "111111111.dkr.ecr.us-west-2.amazonaws.com/",
+    "222222222.dkr.ecr.us-west-2.amazonaws.com/",
+    "111111111.dkr.ecr.ap-northeast-1.amazonaws.com/nginx:",
+]
+
+deployed_unexpected_image[msg] {
+    input.source == "aws.ecs"
+    container := input.detail.containers[_]
+    count({x | startswith(container.image, allowed_registries[x])}) == 0
+
+    msg := sprintf("Deployed unexpected image %s", [container.containerArn])
+}
+```
+
+`allowed_registries` に許可するレジストリ（というかイメージのprefix）を記載しています。`startswith` という組み込み関数を使うことで前方一致を確認し、`count(...) == 0` とすることで「どのレジストリにも一致していない」ということを検査します。許可リストに `/` 移行も記載することで、あるレジストリの特定のリポジトリだけを許可するということも可能です。
+
+さらに厳密にやりたい場合は `imageDigest` を検査して特定のイメージだけを許可することで、イメージの改ざんなども検出することが可能です。ただし許可リストのメンテナンスが非常に煩雑になると予想されます。
+
+# 例2) EC2で特定条件のインスタンスにPublic IPアドレスがついているのを検知する
+
+EC2でインスタンスをデプロイする際、Public IPアドレスを直接付与することは推奨されていません[^no-public-ip]。しかし歴史的経緯などにより一部のインスタンスがPublic IPアドレスを使って運用せざるを得ない場合、そのインスタンスは除外して検知する必要があります。
+
+今回は愚直に `aws ec2 describe-instances` コマンドで取得した結果を使って検査します。この組み合わせだとLambdaを使うまでもなく、例えば GitHub Actionsを用いて定期的に実行するワークフローを作って運用する、といった実装も可能です。
+
+```json
+{
+  "Reservations": [
+    {
+      "Groups": [],
+      "Instances": [
+        {
+          "AmiLaunchIndex": 0,
+          "ImageId": "ami-0abcdef1234567890",
+          "InstanceId": "i-1234567890abcdef0",
+          "InstanceType": "t2.micro",
+==================== snip ====================
+          "PublicIpAddress": "192.88.99.2",
+==================== snip ====================
+          "Tags": [
+            {
+              "Key": "type",
+              "Value": "internal"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+上記がawsコマンドに酔って取得できるデータのサンプルです。今回はインスタンスIDとタグを使って例外を弾くようにしてみましょう。
+
+```rego
+allowed_instances := [
+    "i-00000000000000000",
+    "i-11111111111111111",
+    "i-22222222222222222",
+]
+
+allowed_tags := [
+    {
+        "Key": "type",
+        "Value": "public",
+    },
+]
+
+exposed_instances[msg] {
+    instance := input.Reservations[_].Instances[_]
+    instance.PublicIpAddress != ""
+
+    count({x | allowed_instances[x] == instance.InstanceId}) == 0
+    count({y |
+        allowed_tags[y].Key == instance.Tags[z].Key
+        allowed_tags[y].Value == instance.Tags[z].Value
+    }) == 0
+
+    msg := sprintf("instance %s is exposed unexpectedly", [instance.InstanceId])
+}
+```
+
+許可するインスタンスIDを `allowed_instances`、許可するタグ一覧を `allowed_tags` にそれぞれ格納してみました。許可インスタンスIDおよび許可タグの **どちらにも一致しない場合** に警告が飛ぶポリシーです。順番に説明します。
+
+```rego
+instance := input.Reservations[_].Instances[_]
+```
+
+まずイテレーションさせて `Reservations` 内の `Instances` をすべて取り出します。後日改めて説明しますが、デバッグの観点では1行にいろいろ詰め込んだ式を書くよりは、こまめに変数に書き出して式を小分けにすることで、問題箇所を特定しやすくなります。
+
+```rego
+instance.PublicIpAddress != ""
+```
+
+`aws ec2 describe-instances` コマンドは必ず `PublicIpAddress` フィールドを返すため、空かどうかを確認するには `!= ""` でOKです。またもし空の場合にフィールドが含まれない場合でも `instance.PublicIpAddress` の評価に失敗する → `false` として扱われるため、この式でやりたいことは満たせます。
+
+```
+count({x | allowed_instances[x] == instance.InstanceId}) == 0
+```
+
+内包表記で `allowed_instances` に一致する要素を抜き出し、それが0件であることで **一致するinstance IDが存在しない** ことを確認しています。
+
+```rego
+count({y |
+    allowed_tags[y].Key == instance.Tags[z].Key
+    allowed_tags[y].Value == instance.Tags[z].Value
+}) == 0
+```
+
+こちらも先程と同様に、内包表記で抜き出した要素をカウントすることで **一致するタグが存在しない** ことを確認しています。ポイントはタグの組み合わせを `y` と `z` という変数を使って表現していることです。評価の際、変数は同じ値として扱われるので、このように表記することで **KeyとValue両方にマッチしている** ことが確認できます。これを
+
+```rego
+allowed_tags[_].Key == instance.Tags[_].Key
+allowed_tags[_].Value == instance.Tags[_].Value
+```
+
+のように表記してしまうと **KeyとValueが別々にマッチしている** 場合も真となってしまいます。
+
+```rego
+msg := sprintf("instance %s is exposed unexpectedly", [instance.InstanceId])
+```
+
+ここまでの条件がすべてマッチした場合、最後に通知用のメッセージを `sprintf` で作成します。
+
+# まとめ
+
+OPA/Regoアドベントカレンダーも今日で折り返しになり、Regoの記述方法に関するトピックは今日で終了です。ここまで読んでいただいた皆さんはもう自在にポリシーを記述できるようになったのではないでしょうか？ 次回からは実際にOPA/Regoを実用的に使っていく実践編をお送りします。
+
+[^no-public-ip]: 例えば[AWS Foundational Security Best Practices](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-fsbp-controls.html) の EC2.9で言及されています。
