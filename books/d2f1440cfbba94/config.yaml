@@ -1,0 +1,31 @@
+title: "OPA/Rego入門"
+summary: "情報セキュリティの分野で注目されている汎用的なポリシーエンジンOPAと、OPAで利用するポリシー記述言語Regoについて解説します"
+topics: ["opa", "rego", "go", "入門"]
+published: true
+toc_depth: 0
+price: 0 # 有料の場合200〜5000
+
+chapters:
+  - introduction
+  - intro-overview
+  - intro-policy-as-code
+  - chap-rego
+  - rego-overview
+  - rego-policy-data
+  - rego-output
+  - rego-iteration
+  - rego-package
+  - rego-safety
+  - rego-test
+  - rego-debug
+  - rego-cheat-sheet
+  - rego-example1
+  - rego-example2
+  - chap-opa
+  - opa-command
+  - opa-go
+  - opa-architecture
+  - opa-lambda
+  - opa-cloud-run
+  - opa-github-actions
+  - conclusion

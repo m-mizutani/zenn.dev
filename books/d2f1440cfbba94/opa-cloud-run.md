@@ -1,0 +1,217 @@
+---
+title: "⚙️ OPAサーバをGCP Cloud Runで利用するリポジトリ構成や設定"
+---
+
+この節ではOPAサーバをGoogle CloudのCloud Run上にデプロイするような設定、リポジトリ管理、CIの事例について紹介します。
+
+[OPAのデプロイアーキテクチャ例](https://zenn.dev/mizutani/articles/0b401a4be783e8) でコンテナイメージを用いてECSへデプロイするパターンを紹介しましたが、構成としてはECSをCloud Runに置き換えただけと考えていただければと思います。また、ポリシーについてはバージョン管理の容易さや、ポリシーとサーバを疎結合にしないようにするという観点からコンテナイメージにポリシーを埋め込むというアプローチになります。
+
+# 構成
+
+まず、今回の構成例について全体像を簡単に説明します。
+
+![](https://storage.googleapis.com/zenn-user-upload/0e9ec92c9299-20211217.jpg)
+
+1. GitHub上にリポジトリを作成し、そこにポリシーやコンテナイメージの構成に必要なデータ、そしてCIに必要な情報を格納する
+2. GitHub Actionsによってテスト＆イメージをビルドし、その後そのままCloud Runへデプロイ
+3. 他のGitHub ActionsやサービスからCloud Runへアクセスすることで、CIの判定や認可の判定に利用できる。
+
+この構成はサービスごとにOPAサーバを細かく分けてデプロイするのではなく、組織などで横断して一定まとめてポリシーを管理することを想定しています。
+
+# ディレクトリ構成
+
+```
+├── Dockerfile
+├── README.md
+├── config.yml
+└── policy
+    ├── system
+    │   ├── authz.rego
+    │   └── authz_test.rego
+    └── trivy
+        ├── policy.rego
+        ├── policy_test.rego
+        └── testdata
+            └── vuln_deny_list
+                ├── fail
+                │   └── data.json
+                └── pass
+                    └── data.json
+```
+
+実際のデータは以下のリポジトリにあるので、ご参照ください。
+https://github.com/m-mizutani/opa-server
+
+
+ディレクトリに置かれているものは大きく分けて2つです。
+
+- イメージのビルドやデプロイに必要なもの：Dockerfile, config.ymlなど
+- ポリシーおよびテストに必要なデータ：`./policy` 以下
+
+`opa` はポリシーにアクセスする際のパスは `package` で定義された内容のみに依存しディレクトリ構成には影響されないのですが、データ用のファイルはディレクトリ構造のみに依存します。したがってポリシーのみの構成であれば問題ないのですが、大きなJSONなど構造データをテストに使いたい場合や、巨大な許可・拒否リストなどをデータで管理したい場合は、なるべく慎重にディレクトリ構成を検討するのがおすすめです。
+
+今回の構成は今現在での筆者のベストプラクティスです。まずポリシーファイルは `./policy` をルートディレクトリとして構成します。ルートディレクトリであることは `opa test ./policy` や `opa eval -b ./policy` のようにディレクトリ指定するとルートディレクトリと扱われます。
+
+`./policy` 以下にはプロジェクトやサービスごとにもう一段フォルダを作成し、その中にポリシーやデータをおきます。これによってそのフォルダごとに[code owner](https://docs.github.com/ja/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners)を設定することで、PRマージの承認・拒否の権限がある人を管理しやすくなります。
+
+例の中では `system`、`trivy` という個別のプロジェクト用ディレクトリがあります。`trivy` は[Trivy](https://github.com/aquasecurity/trivy)のスキャン結果を渡すとCIの成功・失敗を制御するためのポリシーです。同じようなディレクトリをプロジェクトやサービスごとに増やしていくイメージです。一方 `system` はOPAサーバのためのポリシーを配置しています。[ポリシー記述例の記事](https://zenn.dev/mizutani/articles/a8ce41c66a2fcc)でも解説しましたが、OPAはサーバとして動かす際に `--authorization=basic` というオプションをつけることで、 `system.authz` パッケージによってHTTPアクセスを制御できます。
+
+また、先述の通りRegoはパッケージ名とディレクトリ構造が全く関連しないため、様々なパッケージ名が混在するような構成にできてしまいます。自由度が高い反面、同じ名前空間のポリシーがどこにあるのかわかりにくくなってしまうため、Goのように同じディレクトリに同じパッケージのポリシーを配置するのが良さそうと考えています。
+
+# ローカルでデバッグ＆テスト
+
+この構成だと以下のように手元でテストできます。
+
+```bash
+$ opa test -v ./policy
+data.system.authz.test_allow_get: PASS (1.2505ms)
+data.system.authz.test_allow_post: PASS (94.583µs)
+data.system.authz.test_disallow_method: PASS (70.292µs)
+data.system.authz.test_disallow_path: PASS (76.708µs)
+data.system.authz.test_authz: PASS (216.875µs)
+data.trivy.test_vuln_deny_list: PASS (666.375µs)
+--------------------------------------------------------------------------------
+PASS: 6/6
+```
+
+また、CLIで実行結果を試したい場合は `eval` コマンドでより手軽に確認することもできます。
+
+```bash
+$ opa eval -f pretty -b ./policy/ data.trivy.fail -i ./policy/trivy/testdata/vuln_deny_list/fail/data.json
+[
+  "GHSA-g2q5-5433-rhrf is really critical, prohibited to deploy"
+]
+```
+
+# Dockerfile
+
+```dockerfile:Dockerfile
+FROM openpolicyagent/opa:0.35.0-rootless
+
+COPY policy /policy
+COPY config.yml /
+
+ENTRYPOINT [ \
+    "/opa", "run", "-s", \
+    "-c", "config.yml", \
+    "--authorization", "basic", \
+    "--ignore", "testdata", \
+    "--ignore", "*_test.rego", \
+    "/policy" \
+]
+```
+
+コンテナイメージをビルドするための `Dockerfile` はOPAが公式に提供しているコンテナイメージ（上記例では `opa:0.35.0-rootless` ）をベースに、ポリシーおよび設定をコピーして利用しています。オプションで `testdata` （ディレクトリ）および `_test.rego` （テスト用コード）を無視することでテスト関連のものが本番にデプロイされないようにしています。
+
+設定ファイル `config.yml` ではログの出力形式についてのみ指定しています。
+
+```yml:config.yml
+decision_logs:
+  console: true
+```
+
+# GitHub ActionsでのCI
+
+## テスト
+
+```yaml:.github/workflows/test.yml
+name: Test OPA policy
+
+on:
+  push:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker://openpolicyagent/opa:0.35.0-rootless
+        with:
+          args: "test -v ./policy"
+```
+
+GitHub Actions上のテストではOPAのcontainer imageを使うのが便利です。特に利用するバージョンをDockerfileと合わせることで、テストとデプロイの結果を整合させることができます。
+
+## ビルド・デプロイ
+
+デプロイに関する部分についてはGCP・Cloud Runの設定が多くなってしまうため、この記事では詳しくは振れません。以下にビルドおよびデプロイのAction用ワークフローがあるので、興味のある方はこちらを参照してみてください。
+
+https://github.com/m-mizutani/opa-server/blob/main/.github/workflows/build.yml
+
+ここではCloud Runの設定に関する部分だけ解説したいと思います。
+
+```yaml:.github/workflows/build.yml
+      - run: |
+          gcloud beta run deploy "${SERVICE_ID}" \
+            --project="${GCP_PROJECT_ID}" \
+            --image "${GCP_IMAGE_NAME}" \
+            --region="${CLOUD_RUN_REGION}" \
+            --platform="managed" \
+            --cpu=1  \
+            --memory=512Mi \
+            --port 8181 \
+            --allow-unauthenticated \
+            --ingress=all \
+            --service-account="opa-server@mztn-opa-service.iam.gserviceaccount.com"
+```
+
+上記がデプロイ用のstepです。
+
+```yml
+--cpu=1  \
+--memory=512Mi \
+```
+
+まず性能についてですが、opa自体が非常に軽量に動作するのでよほど高頻度にアクセスする、あるいは重いポリシーを評価させるなどでない限り、CPU・メモリを潤沢に割り当てる必要はなさそうです。筆者は念の為512MBメモリを割り当てていますが、もっと少なくても問題なさそうです。
+
+```yml
+--allow-unauthenticated \
+--ingress=all \
+```
+
+ネットワークの設定についてはユースケースに合わせて考える必要があります。
+
+- ユースケース1: 外部からポリシーを評価したく、内容に秘匿性はない。ただしポリシーの変更などはさせない
+    - `--allow-unauthenticated` であらゆるリクエストを受け付ける
+    - `--ingress=all` であらゆる通信を受け付ける
+    - `system.authz` パッケージで不要な操作を禁止する
+- ユースケース2: 外部からポリシーを評価したいが信頼する相手からのアクセスのみ受け付けたい
+    - `--no-allow-unauthenticated` でリクエストには権限のあるアカウントのトークンが必要にする。トークンは `gcloud auth print-identity-token` などで取得したものをリクエストヘッダに付与する
+    - `--ingress=all` であらゆる通信を受け付ける
+- ユースケース3: 内部ネットワークからポリシーを評価したいが都度認証したくない
+    - `--allow-unauthenticated` であらゆるリクエストを受け付ける
+    - `--ingress=internal` であらゆる通信を受け付ける
+
+# サンプル
+
+https://github.com/m-mizutani/opa-server
+
+上記リポジトリによってデプロイされたOPAサーバは実際にGCPへデプロイされています。
+
+```bash
+$ curl https://opa-server-h6tk4k5hyq-an.a.run.app/v1/data
+```
+
+とすることで `data` を参照することができます。
+
+```bash
+$ curl https://opa-server-h6tk4k5hyq-an.a.run.app/v1/data -d '{
+    "input": {
+        "Results": [
+            {
+                "Vulnerabilities": [
+                    {
+                        "VulnerabilityID": "GHSA-g2q5-5433-rhrf"
+                    }
+                ]
+            }
+        ]
+    }
+}'
+```
+
+というリクエストを送ることでTrivy用のポリシーに引っ掛けることもできます。
+
+# まとめ
+
+今回はOPAサーバを1つのリポジトリで管理しCloud Runにデプロイするパターンの事例を紹介しました。筆者もまだ使い始めたばかりでベストプラクティスといえるほどには成熟していないため、今後も検討を続けたいと思います。
