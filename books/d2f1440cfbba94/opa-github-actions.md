@@ -1,9 +1,9 @@
 ---
-title: "GitHub Action で Trivy + OPA/Rego による脆弱性管理"
+title: "⚙️ GitHub Action で Trivy + OPA/Rego による脆弱性管理"
 ---
 
 
-今回は GitHub Actions で [Trivy](https://aquasecurity.github.io/trivy) を用いてOSSパッケージの脆弱性検査をした際に、カスタムポリシーによってCIを落とすような仕組みについて紹介[^octovy]します。
+この節では GitHub Actions で [Trivy](https://aquasecurity.github.io/trivy) を用いてOSSパッケージの脆弱性検査をした際に、カスタムポリシーによってCIを落とすような仕組みについて紹介[^octovy]します。
 
 もともとコンテナイメージの脆弱性スキャナとして開発されていたTrivyですが、最近は[ファイルシステムにあるパッケージシステムの脆弱性をスキャンする機能](https://github.com/aquasecurity/trivy/releases/tag/v0.9.0)も実装されています。この機能を利用した[GitHub Actions](https://github.com/aquasecurity/trivy-action)も提供されており、自分が開発してるリポジトリで利用している外部パッケージにどのような脆弱性が含まれているかを簡単に調べることができるようになっています。
 

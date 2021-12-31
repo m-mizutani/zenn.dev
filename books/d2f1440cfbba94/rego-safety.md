@@ -1,8 +1,8 @@
 ---
-title: "Safety"
+title: "📝 Safety"
 ---
 
-本章はRegoでポリシーを記述する際にはまりがちな "Safety" の概念について解説します（[公式ドキュメント](https://www.openpolicyagent.org/docs/latest/faq/#safety)）。
+この節ではRegoでポリシーを記述する際にはまりがちな "Safety" の概念について解説します（[公式ドキュメント](https://www.openpolicyagent.org/docs/latest/faq/#safety)）。
 
 # rego_unsafe_var_error: var x is unsafe
 

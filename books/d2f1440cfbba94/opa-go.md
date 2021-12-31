@@ -1,9 +1,9 @@
 ---
-title: "Go言語によるRego runtimeの組み込み"
+title: "⚙️ Go言語によるRego runtimeの組み込み"
 ---
 
 
-今回はGo言語からRegoのruntimeを呼び出し、ポリシーの評価結果を求める手順について解説します。
+この節ではGo言語からRegoのruntimeを呼び出し、ポリシーの評価結果を求める手順について解説します。
 
 # セットアップ
 

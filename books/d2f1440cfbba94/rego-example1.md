@@ -1,8 +1,8 @@
 ---
-title: "記述例1 (OPAサーバの認可とテスト)"
+title: "📝 記述例1 (OPAサーバの認可とテスト)"
 ---
 
-この章では具体的なユースケースに基づいてRegoの記述例を紹介したいと思います。公式でも既存のインテグレーション事例がいくつか紹介されており、[Kubernetes を題材に使用例](https://www.openpolicyagent.org/docs/latest/kubernetes-primer/)も解説されています。
+この節では具体的なユースケースに基づいてRegoの記述例を紹介したいと思います。公式でも既存のインテグレーション事例がいくつか紹介されており、[Kubernetes を題材に使用例](https://www.openpolicyagent.org/docs/latest/kubernetes-primer/)も解説されています。
 
 # APIサーバへのアクセスを制限するポリシー
 
@@ -131,10 +131,10 @@ test_disallow_path {
 
 ```rego
 test_authz {
-	count(authz_failed_results) == 0
+	not _test_authz
 }
 
-authz_failed_results[failed] {
+_test_authz {
 	tests := [
 		{
 			"title": "GET method is allowed",
@@ -180,7 +180,7 @@ authz_failed_results[failed] {
 
 流れを説明すると、 `tests` に格納されたテストケースを `t := tests[_]` で1つずつ取り出し、検査していくという手法をとっています。Regoは基本的に状態を持たず、入力に対して一意の結果を返させるという使いかたが主なため、table driven testとも相性がいいと考えられます。
 
-この記述方法のポイントは `test_authz` でテストをせず、 `authz_failed_results` 内で失敗するテストを探索し、失敗したテストがなかった（ `count(authz_failed_results) == 0` ）場合にテスト成功と判定しているところです。これは `test_authz` で `t := tests[_]` を使って検査した場合、１つでも一致するものがあると `test_authz` は成功したとみなされる、すなわちテストはPassしたとみなされてしまうためです。これを回避するために１つでも失敗するテストケースがあったら失敗する、というような検証をする必要があるわけです。
+この記述方法のポイントは `test_authz` でテストをせず、 `_test_authz` 内で失敗するテストを探索し、失敗したテストがなかった（ `not test_authz` ）場合にテスト成功と判定しているところです。これは `test_authz` で `t := tests[_]` を使って検査した場合、１つでも一致するものがあると `test_authz` は成功したとみなされる、すなわちテストはPassしたとみなされてしまうためです。これを回避するために１つでも失敗するテストケースがあったら失敗する、というような検証をする必要があるわけです。
 
 記述量の面でいうと普通にテストを書いた場合とそれほどかわりありませんが、テストの条件がまとまっていて見やすい点、およびテスト失敗時のメッセージを自由にカスタマイズできるというメリットがあります。例えば、上記の例だと以下のようなメッセージが出力されます。
 

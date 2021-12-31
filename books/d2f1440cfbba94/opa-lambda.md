@@ -1,9 +1,9 @@
 ---
-title: "OPAをAWS Lambdaへデプロイ"
+title: "⚙️ OPAをAWS Lambdaへデプロイ"
 ---
 
 
-今回はOPAの機能をAWS Lambdaで実装する方法について紹介します。
+この節ではOPAの機能をAWS Lambdaで実装する方法について紹介します。
 
 # AWS Lambda におけるOPA利用の戦略
 
