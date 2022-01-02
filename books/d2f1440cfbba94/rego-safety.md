@@ -39,8 +39,7 @@ result[x] {
 }
 ```
 
-OPAはルールが有限個の入力と出力を持つことを保証するために Safety という概念を持っています。ちゃんと定義された変数のみが
-ドキュメントでは "Safety" は以下のように定義されています。
+OPAはルールが有限個の入力と出力を持つことを保証するために Safety という概念を持っています。ちゃんと定義された変数のみを評価に用いることで、結果が収束するようにするための仕組みです。ドキュメントでは "Safety" は以下のように定義されています。
 
 > Safety: every variable appearing in the head or in a builtin or inside a negation must appear in a non-negated, non-builtin expression in the body of the rule.
 
