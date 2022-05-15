@@ -3,7 +3,7 @@ title: "クラウドネイティブハニーポット on AWS 2022春の陣"
 emoji: "🍯"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["security", "honeypot", "aws"]
-published: false
+published: true
 ---
 
 前回のあらすじ
