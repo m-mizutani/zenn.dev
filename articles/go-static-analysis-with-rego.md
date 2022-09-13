@@ -43,7 +43,7 @@ Regoを使うことでチェックする実装とルールを完全に分離で�
 
 https://github.com/m-mizutani/goast
 
-Goのコードを読み込み、コードの抽象表現であるAST（Abstruct Syntax Tree、構文抽象木）をRegoで記述されたポリシーによって評価します。ASTに関する説明は[こちら](https://docs.google.com/presentation/d/11szCB0AyyjjeaiTFlLCWOMd0pIlpqukgHmht7FGwjO8/edit#slide=id.g5d2856d934_0_270)の資料などがわかりやすいかと思います。 `parser` パッケージを使ってGoソースコードのASTを取得し、これをRegoのポリシーで評価します。評価はファイル全体のASTを一度だけ渡す、あるいはASTのノード毎に評価するモードを用意しています。
+Goのコードを読み込み、コードの抽象表現であるAST（Abstract Syntax Tree、構文抽象木）をRegoで記述されたポリシーによって評価します。ASTに関する説明は[こちら](https://docs.google.com/presentation/d/11szCB0AyyjjeaiTFlLCWOMd0pIlpqukgHmht7FGwjO8/edit#slide=id.g5d2856d934_0_270)の資料などがわかりやすいかと思います。 `parser` パッケージを使ってGoソースコードのASTを取得し、これをRegoのポリシーで評価します。評価はファイル全体のASTを一度だけ渡す、あるいはASTのノード毎に評価するモードを用意しています。
 
 ## ASTを確認する
 
