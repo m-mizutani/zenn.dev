@@ -1,6 +1,6 @@
 ---
 title: "OPA/Regoによる汎用的なGo言語の静的解析（実践編）"
-emoji: "😱"
+emoji: "🎃"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["go", "opa", "rego"]
 published: true
