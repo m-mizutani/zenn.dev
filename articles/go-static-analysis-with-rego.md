@@ -218,6 +218,12 @@ jobs:
 
 ただ、ソースコードの全体像を示すASTと汎用的なポリシー言語であるRegoを使えば全ての静的検査がカバーできるのでは？と言われるとそうでもありません。例えばRegoは状態の変化を追跡するようなルールを書くのは苦手なので、例えば「ある変数がどのように参照・変更されたか」というユースケースにはあまり適さないと考えられます。
 
+# 2022.9.19 追記
+
+続編書きました。
+
+https://zenn.dev/mizutani/articles/go-static-analysis-with-rego-ex
+
 まだ自分でも実践で使い始めたばかりなので、いろいろ探りながら使っている段階です。機能提案などは歓迎ですので、お気軽にコメントや[issue立て](https://github.com/m-mizutani/goast/issues/new)などしてもらえればと思います。
 
 [^sql]: https://zenn.dev/takenokogohan/articles/90655d509a21c1
