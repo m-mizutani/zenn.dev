@@ -10,7 +10,7 @@ published: true
 
 GoのGenericsを活用したテストユーティリティを試験的に作ってみました。
 
-[https://github.com/m-mizutani/gt](https://github.com/m-mizutani/gt)
+https://github.com/m-mizutani/gt
 
 こんな感じにテストを記述できます。
 
