@@ -209,7 +209,7 @@ if v == nil {
 v := gt.Cast[*User](t, resp).NotNil()
 ```
 
-## 余談：ボツ案 Functional Options Pattern
+# 余談：ボツ案 Functional Options Pattern
 
 別案として[Functioanl Option Pattern](https://dave.cheney.net/2014/10/17/functional-options-for-friendly-apis)で実装するという手も考えられました。例えばこういう感じです。
 
