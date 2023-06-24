@@ -149,7 +149,7 @@ logger.Info("hello", slog.Any("user", u))
   "msg": "hello",
   "user": {
     "ID": "u123",
-    "Email": "[FILTERED]" // ← 隠蔽された
+    "Email": "[REDACTED]" // ← 隠蔽された
   }
 }
 ```
