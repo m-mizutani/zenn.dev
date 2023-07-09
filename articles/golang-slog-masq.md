@@ -1,9 +1,9 @@
 ---
-title: "Go公式の構造化ロガー（予定）のslogでも秘匿値を隠したい"
+title: "Go公式の構造化ロガー（予定）のslogで秘匿値をログから削除する"
 emoji: "🚫"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["go"]
-published: false
+published: true
 ---
 
 Go言語ではながらく公式のログ出力に`log`パッケージが使われてきました。しかし昨今のクラウド環境などでのロギングでは構造化ログがほぼ必須であり、そのような流れを受けて公式の構造化ログパッケージ slog が提案されています。2023年8月にリリース見込みの Go 1.21 の[リリースノート](https://go.dev/blog/go1.21rc)にはすでに掲載されており、1.21 で正式に公式に取り込まれるのはほぼ確実かと考えられます。
@@ -161,7 +161,7 @@ logger.Info("hello", slog.Any("user", u))
 - `WithType[T]()`: 型 `T` に一致する値を隠蔽します
 - `WithString(s string)`: 文字列 `s` に一致する値を隠蔽します
 - `WithRegex(re regexp.Regex)`: `r 正規表現 `re` に一致する値を隠蔽します
-- `WithTag(tag string)`: 構造体のフィールドタグ `tag` に一致する値を隠蔽します
+- `WithTag(tag string)`: 構造体の `masq` フィールドタグに一致する値を隠蔽します。例えば `secret` と指定すると `masq:"secret"` というタグが付いたフィールドを隠蔽するようになっています
 - `WithFieldName(name string)`: 構造体のフィールド名 `name` に一致する値を隠蔽します
 - `WithFieldPrefix(prefix string)`: 構造体のフィールド名 `prefix` で始まる値を隠蔽します
 
