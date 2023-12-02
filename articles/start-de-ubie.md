@@ -3,7 +3,7 @@ title: "Starting Detection Engineering in Ubie"
 emoji: "🚀"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["security"]
-published: false
+published: true
 ---
 
 この記事は[Ubie Engineering Advent Calendar](https://adventar.org/calendars/9416) 2023の2日目の投稿になります。UbieではこれからDetection Engineeringに対して取り組もうとしており、どのような課題があってどのように進めようとしているのか、についてご紹介したいと思います。
