@@ -3,7 +3,7 @@ title: "Detection Engineering at 自宅"
 emoji: "🏠"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["security"]
-published: false
+published: true
 ---
 
 年末年始に長い休みを取得できたので、2024年に会社で取り組もうとしている [Detection Engineering](https://zenn.dev/mizutani/articles/start-de-ubie) の取り組みを自宅で素振りしてみました。短い期間だったのでツール自体やドキュメントの整備など至らぬ点はいろいろありますが、ひとまずこの記事ではその内容についてご紹介します。
