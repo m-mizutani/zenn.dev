@@ -3,7 +3,7 @@ title: "UbieにおけるGo言語のエラーハンドリング"
 emoji: "🗳️"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["go"]
-published: false
+published: true
 publication_name: "ubie_dev"
 ---
 
