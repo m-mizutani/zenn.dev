@@ -1,6 +1,6 @@
 ---
 title: "UbieにおけるGo言語のエラーハンドリング"
-emoji: "⛳"
+emoji: "🔍 "
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["go"]
 published: false
