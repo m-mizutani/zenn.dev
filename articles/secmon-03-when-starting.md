@@ -6,7 +6,9 @@ topics: ["security", "monitoring"]
 published: false
 ---
 
-この記事はアドベントカレンダー[Google Cloudで作るセキュリティ監視基盤](https://adventar.org/calendars/xxxx)の3日目です。
+この記事はアドベントカレンダー[Google Cloudで作るセキュリティ監視基盤](https://adventar.org/calendars/9986)の3日目です。
+
+セキュリティ監視は情報セキュリティ対策の一環として重要な要素ですが、始めるべきタイミングは組織や事業規模によって異なります。今回は、セキュリティ監視基盤をいつから始めるべきかについて整理します。
 
 - セキュリティ監視に取り組むかを判断するための変数
     - 情報資産の価値

@@ -6,7 +6,7 @@ topics: ["security", "monitoring"]
 published: false
 ---
 
-この記事はアドベントカレンダー[Google Cloudで作るセキュリティ監視基盤](https://adventar.org/calendars/xxxx)の2日目です。
+この記事はアドベントカレンダー[Google Cloudで作るセキュリティ監視基盤](https://adventar.org/calendars/9986)の2日目です。
 
 基盤の構築の話をする前に、まずそもそも「セキュリティ監視」とは何か、そして「セキュリティ監視基盤」とは何かについて整理をしたいと思います。
 
