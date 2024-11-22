@@ -1,5 +1,5 @@
 ---
-title: "Google Cloudで作るセキュリティ監視基盤(7): セキュリティ監視基盤のアーキテクチャ（実装）"
+title: "Google Cloudで作るセキュリティ監視基盤(11): セキュリティ監視基盤のアーキテクチャ（実装）"
 emoji: "🔎"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["security", "monitoring"]
