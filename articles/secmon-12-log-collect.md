@@ -72,6 +72,13 @@ APIを使ってログを取得する場合、ネットワークエラーやサ�
 - Twilio: [Monitor Event Resource](https://www.twilio.com/docs/usage/monitor-events)
 - Sendgrid: [Retrieve all recent access attempts](https://www.twilio.com/docs/sendgrid/api-reference/ip-access-management/retrieve-all-recent-access-attempts)
 
+## 実装
+
+Pull型のログ取得を実装する際には、大きく分けると2つの実装方法があります。
+
+- **独自実装**: ログ取得のためのジョブを独自に実装する方法です。この場合、ログ取得のためのジョブを定期的に実行する必要があります。それぞれAPIの呼び出し自体は単純ですが、ページネーションやリトライ制御を考えるとプログラミング言語を用いた実装が望ましいでしょう。
+- **マネージドサービスの利用**: 一部のSIEMサービスではSaaSからの定期的なログ取得をサポートしており、さらにデータの保存先をCloud Storageに指定できるものもあります。これらのサービスを利用することで、ログ取得のためのジョブを独自に実装する手間を省くことができます。
+
 # Push型によるログ取得
 
 Push型のログ取得は、組織内部で利用しているサービスやシステムからログを取得する場合に多く使われます。例えば、組織内で開発運用しているシステムやそのミドルウェア、OS、あるいはセキュリティ対策ソフトウェアなどからログを取得する場合に使われます。
