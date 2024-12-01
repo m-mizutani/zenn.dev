@@ -1,8 +1,8 @@
 ---
-title: ""
-emoji: "👻"
+title: "実践セキュリティ監視基盤構築(23): CI/CDの構築"
+emoji: "🔎"
 type: "tech" # tech: 技術記事 / idea: アイデア
-topics: []
+topics: ["security", "monitoring"]
 published: false
 ---
 
