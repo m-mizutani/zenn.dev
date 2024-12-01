@@ -1,12 +1,12 @@
 ---
-title: "Google Cloudで作るセキュリティ監視基盤(12): ログ収集"
+title: "実践セキュリティ監視基盤構築(12): ログ収集"
 emoji: "🔎"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["security", "monitoring"]
 published: false
 ---
 
-この記事はアドベントカレンダー[Google Cloudで作るセキュリティ監視基盤](https://adventar.org/calendars/9986)の12日目です。
+この記事はアドベントカレンダー[実践セキュリティ監視基盤構築](https://adventar.org/calendars/9986)の12日目です。
 
 今回は、セキュリティ監視基盤で使用するログの取得方法について説明します。ログの取得方法は大きく分けて、Push型とPull型の2つがあります。Push型はログの発生元からログを送信してもらう方法で、Pull型はログを取得する側からログを取得する方法です。
 

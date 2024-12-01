@@ -1,12 +1,12 @@
 ---
-title: "Google Cloudで作るセキュリティ監視基盤(11): セキュリティ監視基盤のアーキテクチャ（実装）"
+title: "実践セキュリティ監視基盤構築(11): セキュリティ監視基盤のアーキテクチャ（実装）"
 emoji: "🔎"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["security", "monitoring"]
 published: false
 ---
 
-この記事はアドベントカレンダー[Google Cloudで作るセキュリティ監視基盤](https://adventar.org/calendars/9986)の11日目です。
+この記事はアドベントカレンダー[実践セキュリティ監視基盤構築](https://adventar.org/calendars/9986)の11日目です。
 
 本日は、これまでの設計の議論に基づき、Google Cloud上でどのようにセキュリティ監視基盤を構築するかを説明します。
 

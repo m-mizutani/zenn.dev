@@ -1,12 +1,12 @@
 ---
-title: "Google Cloudで作るセキュリティ監視基盤(13): ログ保全"
+title: "実践セキュリティ監視基盤構築(13): ログ保全"
 emoji: "🔎"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["security", "monitoring"]
 published: false
 ---
 
-この記事はアドベントカレンダー[Google Cloudで作るセキュリティ監視基盤](https://adventar.org/calendars/9986)の13日目です。
+この記事はアドベントカレンダー[実践セキュリティ監視基盤構築](https://adventar.org/calendars/9986)の13日目です。
 
 今回は、ログ収集によって取得したログをCloud Storageにどのように保存するかについて説明します。ログの保存にはいくつかのポイントがあります。ログの保存先のバケット名やオブジェクト名の設計、ログの保存形式、ログの保存期間などを考慮する必要があります。
 

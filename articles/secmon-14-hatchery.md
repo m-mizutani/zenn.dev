@@ -1,12 +1,12 @@
 ---
-title: "Google Cloudで作るセキュリティ監視基盤(14): ログ収集と保全の実装例"
+title: "実践セキュリティ監視基盤構築(14): ログ収集と保全の実装例"
 emoji: "🔎"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["security", "monitoring"]
 published: false
 ---
 
-この記事はアドベントカレンダー[Google Cloudで作るセキュリティ監視基盤](https://adventar.org/calendars/9986)の14日目です。
+この記事はアドベントカレンダー[実践セキュリティ監視基盤構築](https://adventar.org/calendars/9986)の14日目です。
 
 今回は、これまで解説したログ収集フェーズの議論を基に、Pull型によるログ収集・保全の実装例を紹介します。
 

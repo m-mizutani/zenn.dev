@@ -1,12 +1,12 @@
 ---
-title: "Google Cloudで作るセキュリティ監視基盤(3): セキュリティ監視基盤をいつから始めるか"
+title: "実践セキュリティ監視基盤構築(3): セキュリティ監視基盤をいつから始めるか"
 emoji: "🔎"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["security", "monitoring"]
 published: false
 ---
 
-この記事はアドベントカレンダー[Google Cloudで作るセキュリティ監視基盤](https://adventar.org/calendars/9986)の3日目です。
+この記事はアドベントカレンダー[実践セキュリティ監視基盤構築](https://adventar.org/calendars/9986)の3日目です。
 
 セキュリティ監視は情報セキュリティ対策の重要な要素ですが、導入のタイミングは組織や事業規模によって異なります。今回は、セキュリティ監視基盤をいつから始めるべきかについて考察します。
 
