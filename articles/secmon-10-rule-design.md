@@ -156,8 +156,8 @@ CREATE TABLE mobile_device_logs (
 
 ```sql
 SELECT h.*
-FROM http_logs h
-JOIN mobile_device_logs m ON h.auth_user = m.user
+FROM http_logs AS h
+JOIN mobile_device_logs AS m ON h.auth_user = m.user
 WHERE h.timestamp >= DATETIME('now', '-1 hour')
   AND m.timestamp >= DATETIME('now', '-1 hour')
   AND h.remote_addr NOT IN (
