@@ -177,7 +177,7 @@ BigQueryに格納されるべきログが揃ったら、次はスキーマの更
 
 https://github.com/m-mizutani/bqs
 
-このライブラリはGoの構造体やmap形式から、BigQueryの構造体データ (`bigquery.Schema`) を生成する機能を提供しています。Goの構造体からBigQueryのスキーマを生成する機能は公式SDKの [bigquery.InferSchema](https://pkg.go.dev/cloud.google.com/go/bigquery#InferSchema) でも提供されていますが、 **ネストした構造体やmap型のスキーマが生成できない** という制約があります。bqsはこの制約を解消し、ネストした構造体やmap型のスキーマも生成できるようになっています。さらにスキーマの比較やマージといった機能を備えています。
+このライブラリはGoの構造体やmap形式から、BigQueryの構造体データ (`bigquery.Schema`) を生成する機能を提供しています。Goの構造体からBigQueryのスキーマを生成する機能は公式SDKの [bigquery.InferSchema](https://pkg.go.dev/cloud.google.com/go/bigquery#InferSchema) でも提供されていますが、 **any型を含むネストした構造体やmap型のスキーマが生成できない** という制約があります。bqsはこの制約を解消し、ネストした構造体やmap型のスキーマも生成できるようになっています。さらにスキーマの比較やマージといった機能を備えています。
 
 以下がスキーマ生成とマージの例です。
 ```go
