@@ -1,5 +1,5 @@
 ---
-title: "実践セキュリティ監視基盤構築(12): ログ収集"
+title: "実践セキュリティ監視基盤構築(12): ログ収集の実装要点"
 emoji: "🔎"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["security", "monitoring"]
