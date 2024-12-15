@@ -6,4 +6,4 @@ topics: ["security", "monitoring"]
 published: false
 ---
 
-この記事はアドベントカレンダー[実践セキュリティ監視基盤構築](https://adventar.org/calendars/9986)の23日目です。
+この記事はアドベントカレンダー[実践セキュリティ監視基盤構築](https://adventar.org/calendars/9986)の24日目です。
