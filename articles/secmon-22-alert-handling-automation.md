@@ -10,7 +10,7 @@ published: false
 
 # アラート対応自動化の実装方針
 
-## SOARは終わったのか？
+## SOAR is dead?
 
 アラート対応の自動化といえば、[SOAR（Security Orchestration, Automation and Response）](https://www.gartner.com/en/information-technology/glossary/security-orchestration-automation-response-soar)が思い浮かびます。これは2017年ごろにGartnerが提唱した比較的新しい概念で、セキュリティ監視からアラート対応、インシデント対応を自動化するためのプラットフォームです。当初はアラート・インシデント対応の全てを自動化できると期待されていましたが、完全な自動化は難しいという見方[^Gorka][^darkreading]が広がり、GartnerのHype Cycle for Security Operations 2024では幻滅期に位置付けられています。
 
