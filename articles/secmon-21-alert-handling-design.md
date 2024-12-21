@@ -3,7 +3,7 @@ title: "実践セキュリティ監視基盤構築(21): アラート対応の設
 emoji: "🔎"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["security", "monitoring"]
-published: false
+published: true
 ---
 
 この記事はアドベントカレンダー[実践セキュリティ監視基盤構築](https://adventar.org/calendars/9986)の21日目です。本アドベントカレンダーではアラート対応の自動化、エンジニアリングまでを取り上げますが、まずはアラート対応とはどういうものか、どう設計するべきかという観点について議論します。
