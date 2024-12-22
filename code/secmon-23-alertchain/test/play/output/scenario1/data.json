@@ -1,0 +1,98 @@
+{
+  "id": "scenario1",
+  "title": "AWS GuardDuty Trojan alert",
+  "results": [
+    {
+      "alert": {
+        "title": "Trojan:EC2/DropPoint!DNS",
+        "description": "",
+        "source": "aws",
+        "namespace": "aws_guardduty_trojan_alert/instance/i-99999999",
+        "attrs": [
+          {
+            "id": "4b8bd85f-2190-49e7-9447-fc6302182de8",
+            "key": "instance ID",
+            "value": "i-99999999",
+            "type": "",
+            "persist": false,
+            "ttl": 0
+          }
+        ],
+        "refs": [],
+        "id": "8ee50b6b-72b3-40e0-8820-938c6a686090",
+        "schema": "aws_guardduty",
+        "created_at": "2024-12-22T09:29:21.25148+09:00"
+      },
+      "actions": [
+        {
+          "seq": 0,
+          "id": "github-issue",
+          "name": "",
+          "uses": "github.create_issue",
+          "args": {
+            "app_id": 134650,
+            "install_id": 19102538,
+            "owner": "m-mizutani",
+            "repo": "security-alert",
+            "secret_private_key": "test_private_key_xxxxxxxxxx"
+          },
+          "force": false,
+          "abort": false,
+          "commit": [
+            {
+              "id": "",
+              "key": "github_issue_number",
+              "value": 999,
+              "type": "",
+              "persist": true,
+              "ttl": 0,
+              "path": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "alert": {
+        "title": "Trojan:EC2/DropPoint!DNS",
+        "description": "",
+        "source": "aws",
+        "namespace": "aws_guardduty_trojan_alert/instance/i-99999999",
+        "attrs": [
+          {
+            "id": "ccedcd30-0b8b-4b5b-97d1-b6405b3adca9",
+            "key": "instance ID",
+            "value": "i-99999999",
+            "type": "",
+            "persist": false,
+            "ttl": 0
+          }
+        ],
+        "refs": [],
+        "id": "eca30c1c-6acb-4842-8749-a97075f86897",
+        "schema": "aws_guardduty",
+        "created_at": "2024-12-22T09:29:21.253126+09:00"
+      },
+      "actions": [
+        {
+          "seq": 0,
+          "id": "github-comment",
+          "name": "",
+          "uses": "github.create_comment",
+          "args": {
+            "app_id": 134650,
+            "body": "dup!",
+            "install_id": 19102538,
+            "issue_number": 999,
+            "owner": "m-mizutani",
+            "repo": "security-alert",
+            "secret_private_key": "test_private_key_xxxxxxxxxx"
+          },
+          "force": false,
+          "abort": false,
+          "commit": []
+        }
+      ]
+    }
+  ]
+}
