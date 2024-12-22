@@ -11,6 +11,8 @@ test_scenario1 if {
     # === 1回目の受入 ===
     # ✅️ アラートについてのチェック
     s.results[0].alert.title == "Trojan:EC2/DropPoint!DNS"
+    # ✅️ 実行されたアクションは1つだけ
+    count(s.results[0].actions) == 1
     # ✅️ 1つ目のアクションはGitHub Issueの作成
     s.results[0].actions[0].uses == "github.create_issue"
     # ✅️ GitHub Issueの作成時に指定された引数のチェック
@@ -22,6 +24,8 @@ test_scenario1 if {
     # === 2回目の受入 ===
     # ✅️ アラートについてのチェック
     s.results[1].alert.title == "Trojan:EC2/DropPoint!DNS"
+    # ✅️ 実行されたアクションは1つだけ
+    count(s.results[1].actions) == 1
     # ✅️ 2つ目のアクションはGitHub Issueのコメント作成
     s.results[1].actions[0].uses == "github.create_comment"
     # ✅️ GitHub Issueのコメント作成時に指定された引数のチェック

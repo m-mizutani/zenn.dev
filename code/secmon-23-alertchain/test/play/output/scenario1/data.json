@@ -10,7 +10,7 @@
         "namespace": "aws_guardduty_trojan_alert/instance/i-99999999",
         "attrs": [
           {
-            "id": "4b8bd85f-2190-49e7-9447-fc6302182de8",
+            "id": "85c44375-6c9c-4089-80ae-711a68984a2c",
             "key": "instance ID",
             "value": "i-99999999",
             "type": "",
@@ -19,9 +19,9 @@
           }
         ],
         "refs": [],
-        "id": "8ee50b6b-72b3-40e0-8820-938c6a686090",
+        "id": "adf00ea3-9e09-459a-a059-ea118e28e724",
         "schema": "aws_guardduty",
-        "created_at": "2024-12-22T09:29:21.25148+09:00"
+        "created_at": "2024-12-22T10:20:16.41267+09:00"
       },
       "actions": [
         {
@@ -60,7 +60,7 @@
         "namespace": "aws_guardduty_trojan_alert/instance/i-99999999",
         "attrs": [
           {
-            "id": "ccedcd30-0b8b-4b5b-97d1-b6405b3adca9",
+            "id": "652f2b42-b7f6-41c4-a596-db172d6a846b",
             "key": "instance ID",
             "value": "i-99999999",
             "type": "",
@@ -69,9 +69,9 @@
           }
         ],
         "refs": [],
-        "id": "eca30c1c-6acb-4842-8749-a97075f86897",
+        "id": "46860e69-dbd6-40b4-a973-725b3d00b3fd",
         "schema": "aws_guardduty",
-        "created_at": "2024-12-22T09:29:21.253126+09:00"
+        "created_at": "2024-12-22T10:20:16.414698+09:00"
       },
       "actions": [
         {
@@ -81,7 +81,6 @@
           "uses": "github.create_comment",
           "args": {
             "app_id": 134650,
-            "body": "dup!",
             "install_id": 19102538,
             "issue_number": 999,
             "owner": "m-mizutani",
