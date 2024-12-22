@@ -25,7 +25,6 @@ run contains {
         },
     ],
 } if {
-    input.seq == 0
     not issue_num
 }
 
@@ -34,10 +33,13 @@ run contains {
     "id": "github-comment",
     "uses": "github.create_comment",
     "args": object.union(github_args, {
-        "body": "dup!",
         "issue_number": issue_num,
     }),
 } if {
-    input.seq == 0
-    issue_num > 0
+    not called_github_issue
+    issue_num
+}
+
+called_github_issue if {
+    input.called[_].id == "github-issue"
 }

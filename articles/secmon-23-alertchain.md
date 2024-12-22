@@ -243,7 +243,7 @@ AlertChainは主にアラート受入とアラート対応でロジックを持�
 
 先程の例で示した `alert` ポリシーをもとに簡略化したルールでテストを実装してみます。以下に説明のため簡略化したルールを示します。 `alert.rego`, `alert_test.rego`, `testdata/guardduty/data.json` （[これ](https://github.com/secmon-lab/alertchain/blob/main/examples/basic/guardduty.json)と同じ）というファイルを作成します。
 
-```rego:alert.rego
+```rego:policy/alert/alert.rego
 package alert.aws_guardduty
 
 alert contains {
@@ -255,6 +255,7 @@ alert contains {
             "value": f.Resource.InstanceDetails.InstanceId,
         },
     ],
+    "namespace": sprintf("aws_guardduty_trojan_alert/instance/%s", [f.Resource.InstanceDetails.InstanceId]),
 } if {
     f := input.Findings[_]
     startswith(f.Type, "Trojan:")
@@ -264,7 +265,7 @@ alert contains {
 
 そしてテストをいくつか記述してみます。まずは正常にアラートとして検知する場合のテストです。
 
-```rego:alert_test.rego
+```rego:policy/alert/alert_test.rego
 test_alert if {
 	resp := alert with input as data.testdata.guardduty
 	count(resp) == 1
@@ -278,7 +279,7 @@ test_alert if {
 
 このテストは、 `testdata/guardduty/data.json` に記述されたデータを `alert` ルールに適用した結果が正しいかを検証しています。テスト用データは検知が期待されるアラートの内容となっています。これを `alert with input as data.testdata.guardduty` とすることで `input` の値を上書きした上で `alert` ルールを評価して、その結果を `resp` に格納します。そして `resp` に対してタイトルや属性値の検証を行っています。
 
-```rego:alert_test.rego
+```rego:policy/alert/alert_test.rego
 test_not_enough_severity if {
 	resp := alert with input as json.patch(data.testdata.guardduty, [
         {
@@ -294,7 +295,7 @@ test_not_enough_severity if {
 
 次に、アラートの重要度が7未満の場合にアラートとして検知されないことを検証するテストを記述します。このテストでは、 `Severity` の値を7未満に変更したデータを `alert` ルールに適用した結果が空であることを検証しています。テスト用データをテストの数だけ用意しても良いのですが、手間がかかるため筆者は `json.patch` という関数を利用してテスト用データを変更することが多いです。
 
-```rego:alert_test.rego
+```rego:policy/alert/alert_test.rego
 test_not_trojan if {
     resp := alert with input as json.patch(data.testdata.guardduty, [
         {
@@ -313,6 +314,7 @@ test_not_trojan if {
 これらのテストを実行するには、OPAのCLIを利用します。以下のコマンドを実行することでテストを実行できます。
 
 ```sh
+$ cd policy/alert
 $ tree .
 .
 ├── alert.rego
@@ -334,6 +336,181 @@ PASS: 3/3
 
 ### アラート対応処理のテスト
 
+アラート対応の処理に関するテストは、アラート受入処理のテストとは異なり、Regoのテスト機能をそのまま利用することができません。これは、アラート対応の処理は外部サービスとの連携が必要であり、そのテストをRegoのテスト機能だけで実現することが難しいためです。そのため、アラート対応の処理に関するテストは、事前に作成したテストシナリオを用いてAlertChainで模擬実行（Dry-run）することで、実行結果を記録し、その結果を検証する方式を採用しています。実際のステップは以下のようになります。
 
+1. `action` ポリシーを用意する
+2. テストシナリオを作成する
+3. `action` ポリシーの実行結果に対するテストを作成する
+4. テストシナリオを実行し、実行結果を検証する
+
+このようにして、アラート対応の処理に関するテストを実現しています。具体的な手順を以下に示します。
+
+#### 1. `action` ポリシーを用意する
+
+まずは、アラート対応の処理を記述する `action` ポリシーを用意します。`alert` ポリシーのテストでも利用したAWS GuardDutyのアラートを題材として、1度目のアラートはGitHubのIssueを作成し、2度目の同一インスタンス上でのアラートはそのIssueにコメントを追加するという処理を以下に一部抜粋で示します。（全文は[こちら](https://github.com/m-mizutani/zenn.dev/blob/main/code/secmon-23-alertchain/test/policy/action/action.rego)）
+
+```rego:policy/action/action.rego
+issue_num := input.alert.attrs[x].value if {
+    input.alert.attrs[x].key == "github_issue_number"
+}
+
+# (1) GitHub issue number が存在しなければIssueを作成
+run contains {
+    "id": "github-issue",
+    "uses": "github.create_issue",
+    "args": github_args,
+    "commit": [
+        {
+            "key": "github_issue_number",
+            "persist": true,
+            "path": "number",
+        },
+    ],
+} if {
+    not issue_num
+}
+
+# (2) GitHub issue number が存在するなら、それをもとにコメントを作成
+run contains {
+    "id": "github-comment",
+    "uses": "github.create_comment",
+    "args": object.union(github_args, {
+        "issue_number": issue_num,
+    }),
+} if {
+    not called_github_issue
+    issue_num
+}
+
+called_github_issue if {
+    input.called[_].id == "github-issue"
+}
+```
+
+この例では、GitHubのIssueを作成する処理と、そのIssueにコメントを追加する処理を記述しています。Issueの番号は `github_issue_number` という属性に保存され、その属性が存在するかどうかでIssueが作成済みかどうかを判定しています。また、Issueが作成済みであれば `called_github_issue` というフラグを立て、Issueにコメントを追加する処理を実行します。
+
+#### 2. テストシナリオを作成する
+
+次にテストシナリオを用意します。テストシナリオはjsonnetで記述し、以下のようになります。
+
+```jsonnet:play/scenario/scenario1.jsonnet
+local event = import "../../policy/alert/testdata/guardduty/data.json";
+
+{
+  id: 'scenario1',
+  title: 'AWS GuardDuty Trojan alert',
+  events: [
+    {
+      input: event,
+      schema: 'aws_guardduty',
+      actions: {
+        'github.create_issue': [{
+          number: 999,
+        }],
+      },
+    },
+    {
+      input: event,
+      schema: 'aws_guardduty',
+    },
+  ],
+  env: {
+    GITHUB_PRIVATE_KEY: 'test_private_key_xxxxxxxxxx',
+  },
+}
+```
+
+このテストシナリオは、AWS GuardDutyのアラートを2回発生させるものです。1回目のアラートではGitHubのIssueを作成し、2回目のアラートではそのIssueにコメントを追加します。また、GitHubのIssue作成時にはIssue番号を999を返すように指定しており、これがモックとして利用されます。
+
+#### 3. `action` ポリシーの実行結果に対するテストを作成する
+
+実行結果のデータがないとイメージがしにくいと思うので、先にDry-runによってどのような実行結果がえられるのかを示します。
+
+https://github.com/m-mizutani/zenn.dev/blob/main/code/secmon-23-alertchain/test/play/output/scenario1/data.json
+
+結果はJSON形式で、受け入れられたアラートとそれに伴って実行されたアクションの情報が記録されています。`results[].alert` には受け入れられたアラートの情報が、`results[].actions[]` には実行されたアクションの情報が格納されています。`results[].actions[]` には呼び出された際の `id`, `uses`, `args` に加えて、実行結果としてどのような属性値が新たに追加されたかを知るための `commit` フィールドも含まれています。
+
+これをもとに、テストを記述します。
+
+```rego:play/scenario1_test.rego
+package play
+
+test_scenario1 if {
+    s := data.output.scenario1
+
+    # シナリオIDがあっているかチェック
+    s.id == "scenario1"
+    # Alertが2回受入られている
+    count(s.results) == 2
+
+    # === 1回目の受入 ===
+    # ✅️ アラートについてのチェック
+    s.results[0].alert.title == "Trojan:EC2/DropPoint!DNS"
+    # ✅️ 実行されたアクションは1つだけ
+    count(s.results[0].actions) == 1
+    # ✅️ 1つ目のアクションはGitHub Issueの作成
+    s.results[0].actions[0].uses == "github.create_issue"
+    # ✅️ GitHub Issueの作成時に指定された引数のチェック
+    s.results[0].actions[0].args["app_id"] == 134650
+    # ✅️ Issue作成時の返り値のチェック
+    s.results[0].actions[0].commit[x].key == "github_issue_number"
+    s.results[0].actions[0].commit[x].value == 999
+
+    # === 2回目の受入 ===
+    # ✅️ アラートについてのチェック
+    s.results[1].alert.title == "Trojan:EC2/DropPoint!DNS"
+    # ✅️ 実行されたアクションは1つだけ
+    count(s.results[1].actions) == 1
+    # ✅️ 2つ目のアクションはGitHub Issueのコメント作成
+    s.results[1].actions[0].uses == "github.create_comment"
+    # ✅️ GitHub Issueのコメント作成時に指定された引数のチェック
+    s.results[1].actions[0].args["issue_number"] == 999
+}
+```
+
+実行結果に対してテストを記述しており、これによって期待された動作になっているかを検証できます。今回のテストで確認する要点は以下のとおりです。
+
+- アラートが2回受け入れられている
+- 1回目のアラートではGitHub Issueが作成され、2回目はそのIssueにコメントが追加されている
+- Issue作成時にはIssue番号が999が返され、それがコメント作成時に利用されている
+
+#### 4. テストシナリオを実行し、実行結果を検証する
+
+最後に、テストシナリオを実行し、その結果を検証します。以下のコマンドを実行することでテストを実行できます。
+
+```sh
+$ tree
+.
+├── play
+│   ├── output
+│   │   └── scenario1
+│   │       └── data.json
+│   ├── run.sh
+│   ├── scenario
+│   │   └── scenario1.jsonnet
+│   └── scenario1.rego
+└── policy
+    ├── action
+    │   └── action.rego
+    └── alert
+        ├── alert.rego
+        ├── alert_test.rego
+        └── testdata
+            └── guardduty
+                └── data.json
+
+10 directories, 8 files
+$ alertchain play -d ./policy -s play/scenario -o play/output
+(省略)
+$ opa test -v play
+play/scenario1.rego:
+data.play.test_scenario1: PASS (573.125µs)
+--------------------------------------------------------------------------------
+PASS: 1/1
+```
+
+このようにして、アラート対応の処理に関するテストを実現しています。このようなテストを実施することで、アラート対応の処理が期待通りに動作するかを検証することができます。この処理をCI/CDに組み込むことで、アラート対忋の処理の品質を維持することができます。
 
 # まとめ
+
+AlertChainはアラートの受付とアラート対応の処理をRegoで記述することで、アラートの処理を柔軟に記述できるようにしつつ、テストも実施できるようにしたツールです。テキストベースによるルールやテストによってバージョン管理や品質管理がしやすく、またRegoの汎用性によって様々なアラートに対応できるという特徴があります。アラート対応をするシステムやOSSは他にもいくつかありますが、AlertChainはその中でもRegoを利用することで柔軟性と拡張性を重視しています。アラート対応の仕組みを構築・実装する方の参考になれば幸いです。
