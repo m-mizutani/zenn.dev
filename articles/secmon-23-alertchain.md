@@ -3,7 +3,7 @@ title: "実践セキュリティ監視基盤構築(23): アラート対応の自
 emoji: "🔎"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["security", "monitoring"]
-published: false
+published: true
 ---
 
 この記事はアドベントカレンダー[実践セキュリティ監視基盤構築](https://adventar.org/calendars/9986)の23日目です。本日はアラート対応の自動化を実現するための実装を紹介します。
