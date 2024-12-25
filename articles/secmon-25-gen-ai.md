@@ -3,7 +3,7 @@ title: "実践セキュリティ監視基盤構築(25): セキュリティ監視
 emoji: "🔎"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["security", "monitoring"]
-published: false
+published: true
 ---
 
 この記事はアドベントカレンダー「[実践セキュリティ監視基盤構築](https://adventar.org/calendars/9986)」の25日目の記事です。最終日には、少し実践的な話題から離れて、セキュリティ監視と生成AIについて考えてみます。今回の内容は、実際に試した結果に基づくものではなく、あくまでアイデアベースの内容としてご覧ください。
@@ -72,6 +72,29 @@ Threat Huntingの話と同様に、組織や環境に関する情報を適切に
 生成AIがこの作業を補助することができれば、ルール更新の作業を短縮することが期待できます。手順1は自動的に行う（例えばDBなどに保存されたものを取得できるようにするなど）機能を実装すれば良いでしょう。元になったデータと既存のルールを入力とし、「このデータの検知を無視するようなルールを追加して。さらにテストデータを生成し、テストも追加して」というような質問を生成AIに投げることで、手順2〜5を効率化することができます。最後に人間がテスト内容とテスト結果を確認し、CI/CDパイプラインを通してデプロイするという流れになります。
 
 これによって全体の7〜8割程度の作業を生成AIが補助することができると考えられます。単純に時間を短縮するだけでなく、作業に対する心理的障壁を下げることができるため、ルール更新の頻度を上げることができると期待できます。
+
+アラート対応の実装でも紹介したAlertChainでも実験的にこの機能を取り入れています。
+
+https://github.com/secmon-lab/alertchain/pull/98
+
+```shell
+% export ALERTCHAIN_GEMINI_PROJECT_ID=your-project
+% export ALERTCHAIN_GEMINI_LOCATION=us-central1
+% export ALERTCHAIN_DB_TYPE=firestore
+% export ALERTCHAIN_FIRESTORE_PROJECT_ID=your-project
+% export ALERTCHAIN_FIRESTORE_DATABASE_ID=alertchain
+% alertchain new ignore \
+    -i 30a7bdd6-7d55-419a-9a1d-220c406946d1 \ # alert ID
+    -b policy/alert/scc.rego \                # ベースとなるポリシー
+    -d policy/alert/test/scc \                # テストデータを設置するディレクトリ
+    -r data.alert.test.scc                    # テストデータのパス
+```
+
+このようなコマンドを実行することで、AlertChainが誤検知したアラートのデータを取得し、それをもとに生成AI（ここではGoogle CloudのGemini APIを利用）を用いてアラートの無視ルールを生成することができます。
+
+![](https://storage.googleapis.com/zenn-user-upload/50a6dcaa7496-20241225.png)
+
+実際に生成されたルールが上記のようになり、特定のアラートを無視するルールが生成され、テストデータも生成されます。ただしまだ実験的な試みであり、必ず期待したルールが生成されるわけではないので、あくまでルールの原型を生成するための補助として利用するのが良いかもしれません。
 
 ## ✅️ アラート内容についての問い合わせ
 
