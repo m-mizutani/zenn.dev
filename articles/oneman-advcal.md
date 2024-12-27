@@ -3,7 +3,7 @@ title: "一人アドベントカレンダーをやりきる技術"
 emoji: "🏃"
 type: "idea" # tech: 技術記事 / idea: アイデア
 topics: ["blog", "アドベントカレンダー"]
-published: false
+published: true
 ---
 
 ![](https://storage.googleapis.com/zenn-user-upload/fd4874cb26f6-20241224.jpg)
