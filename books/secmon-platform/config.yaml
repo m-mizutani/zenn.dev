@@ -1,0 +1,34 @@
+title: "実践セキュリティ監視基盤構築"
+summary: "本書では情報セキュリティ対策の一環であるセキュリティ監視を実現するための方法として、セキュリティ監視の基盤を自分で構築するために必要となる実践的な設計・実装方法について紹介します。セキュリティ監視基盤を内製する方だけでなく、既製ソフトウェア・サービスを利用して基盤構築しようとしている方にも参考になれば幸いです。"
+topics: ["security", "monitoring"]
+published: false
+price: 0 # 有料の場合200〜5000
+
+chapters:
+  - 00-introduction
+  - 01-01-about-secmon
+  - 01-02-when-starting
+  - 01-03-secmon-engineering
+  - 01-04-buy-or-build
+  - 02-01-design
+  - 02-02-func-req
+  - 02-03-nonfunc-req
+  - 02-04-arch-design
+  - 02-05-data-log
+  - 02-06-data-alert
+  - 02-07-rule-design
+  - 02-08-alert-handling-design
+  - 03-01-arch-impl
+  - 03-02-log-collect
+  - 03-03-log-retention
+  - 03-04-hatchery
+  - 03-05-log-db
+  - 03-06-log-transform
+  - 03-07-log-load
+  - 03-08-swarm
+  - 03-09-detection
+  - 03-10-overseer
+  - 03-11-alert-handling-automation
+  - 03-12-alertchain
+  - 03-13-gen-ai
+  - 99-conclusion
