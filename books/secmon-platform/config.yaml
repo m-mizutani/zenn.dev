@@ -18,6 +18,7 @@ chapters:
   - 02-06-data-alert
   - 02-07-rule-design
   - 02-08-alert-handling-design
+  - 03-00-implementation
   - 03-01-arch-impl
   - 03-02-log-collect
   - 03-03-log-retention
