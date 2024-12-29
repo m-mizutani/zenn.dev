@@ -1,5 +1,5 @@
 ---
-title: "📐 要件定義（非機能）"
+title: "📐 非機能要件定義"
 emoji: "🔎"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["security", "monitoring"]

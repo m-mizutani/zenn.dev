@@ -1,6 +1,6 @@
 title: "実践セキュリティ監視基盤構築"
 summary: "本書では情報セキュリティ対策の一環であるセキュリティ監視を実現するための方法として、セキュリティ監視の基盤を自分で構築するために必要となる実践的な設計・実装方法について紹介します。セキュリティ監視基盤を内製する方だけでなく、既製ソフトウェア・サービスを利用して基盤構築しようとしている方にも参考になれば幸いです。"
-topics: ["security", "monitoring"]
+topics: ["security", "monitoring", "googlecloud", "bigquery", "go"]
 published: false
 price: 0 # 有料の場合200〜5000
 
