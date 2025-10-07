@@ -1,0 +1,7 @@
+# Dashboard
+dashboard/node_modules
+dashboard/.next
+dashboard/out
+dashboard/.turbo
+dashboard/.vercel
+dashboard/.env*.local
