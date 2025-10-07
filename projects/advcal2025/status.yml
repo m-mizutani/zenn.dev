@@ -4,24 +4,23 @@ start_date: 2025-10-07
 end_date: 2025-12-25
 
 # 執筆計画
-# - 期間: 2025-10-07 ～ 2025-12-17（約10週間）
+# - 期間: 2025-10-07 ～ 2025-12-24（約11週間）
 # - ペース: 週2-3本を均等に配分
-# - バッファ: 12/18-12/25（最終1週間）は予備期間
+# - バッファ: なし（12/24までに全記事完了）
 # - 祝日: 11/3（文化の日）、11/23（勤労感謝の日）、11/24（振替休日）
 
 articles:
-  # Week 1: 10/7-10/13（火開始）
+  # 10月7日〜12月24日まで均等配分（79日間で25記事 = 約3.2日に1記事）
   - day: 1
     slug: sec-agent-01-introduction
     title: LLMエージェントによるセキュリティ運用の未来
     scheduled_date: 2025-12-01
     scheduled_time: "09:00"
-    writing_deadline: 2025-10-10  # Week 1金曜
+    writing_deadline: 2025-10-10
     publication_deadline: 2025-11-30
-    status: not_started  # not_started, in_progress, review, completed, published
-    progress: 0  # 0-100
+    status: not_started
+    progress: 0
     completed_date: null
-    published_date: null
     notes: ""
 
   - day: 2
@@ -29,12 +28,11 @@ articles:
     title: 小規模SOCチームが直面する現実的課題
     scheduled_date: 2025-12-02
     scheduled_time: "09:00"
-    writing_deadline: 2025-10-12  # Week 1日曜
+    writing_deadline: 2025-10-13
     publication_deadline: 2025-12-01
     status: not_started
     progress: 0
     completed_date: null
-    published_date: null
     notes: ""
 
   - day: 3
@@ -42,26 +40,23 @@ articles:
     title: システムアーキテクチャと設計方針
     scheduled_date: 2025-12-03
     scheduled_time: "09:00"
-    writing_deadline: 2025-10-13  # Week 1月曜
+    writing_deadline: 2025-10-16
     publication_deadline: 2025-12-02
     status: not_started
     progress: 0
     completed_date: null
-    published_date: null
     notes: ""
 
-  # Week 2: 10/14-10/20
   - day: 4
     slug: sec-agent-04-setup
     title: 開発環境とベースコード理解
     scheduled_date: 2025-12-04
     scheduled_time: "09:00"
-    writing_deadline: 2025-10-17  # Week 2金曜
+    writing_deadline: 2025-10-19
     publication_deadline: 2025-12-03
     status: not_started
     progress: 0
     completed_date: null
-    published_date: null
     notes: ""
 
   - day: 5
@@ -69,26 +64,23 @@ articles:
     title: LLM統合の第一歩 - アラート要約
     scheduled_date: 2025-12-05
     scheduled_time: "09:00"
-    writing_deadline: 2025-10-19  # Week 2日曜
+    writing_deadline: 2025-10-22
     publication_deadline: 2025-12-04
     status: not_started
     progress: 0
     completed_date: null
-    published_date: null
     notes: ""
 
-  # Week 3: 10/21-10/27
   - day: 6
     slug: sec-agent-06-structured-output
     title: 構造化出力でIOCを抽出する
     scheduled_date: 2025-12-06
     scheduled_time: "09:00"
-    writing_deadline: 2025-10-24  # Week 3金曜
+    writing_deadline: 2025-10-25
     publication_deadline: 2025-12-05
     status: not_started
     progress: 0
     completed_date: null
-    published_date: null
     notes: ""
 
   - day: 7
@@ -96,12 +88,11 @@ articles:
     title: プロンプトチューニングの基礎
     scheduled_date: 2025-12-07
     scheduled_time: "09:00"
-    writing_deadline: 2025-10-26  # Week 3日曜
+    writing_deadline: 2025-10-28
     publication_deadline: 2025-12-06
     status: not_started
     progress: 0
     completed_date: null
-    published_date: null
     notes: ""
 
   - day: 8
@@ -109,39 +100,35 @@ articles:
     title: 会話履歴の管理基盤
     scheduled_date: 2025-12-08
     scheduled_time: "09:00"
-    writing_deadline: 2025-10-27  # Week 3月曜
+    writing_deadline: 2025-10-31
     publication_deadline: 2025-12-07
     status: not_started
     progress: 0
     completed_date: null
-    published_date: null
     notes: ""
 
-  # Week 4: 10/28-11/3（11/3文化の日）
   - day: 9
     slug: sec-agent-09-function-calling
     title: Function Callingで外部ツールと連携
     scheduled_date: 2025-12-09
     scheduled_time: "09:00"
-    writing_deadline: 2025-10-31  # Week 4金曜
+    writing_deadline: 2025-11-03
     publication_deadline: 2025-12-08
     status: not_started
     progress: 0
     completed_date: null
-    published_date: null
-    notes: ""
+    notes: "11/3文化の日"
 
   - day: 10
     slug: sec-agent-10-threat-intel
     title: 脅威インテリジェンスツールの実装
     scheduled_date: 2025-12-10
     scheduled_time: "09:00"
-    writing_deadline: 2025-11-02  # Week 4日曜
+    writing_deadline: 2025-11-06
     publication_deadline: 2025-12-09
     status: not_started
     progress: 0
     completed_date: null
-    published_date: null
     notes: ""
 
   - day: 11
@@ -149,26 +136,23 @@ articles:
     title: MCPで拡張可能なツール基盤
     scheduled_date: 2025-12-11
     scheduled_time: "09:00"
-    writing_deadline: 2025-11-03  # Week 4月曜（文化の日）
+    writing_deadline: 2025-11-09
     publication_deadline: 2025-12-10
     status: not_started
     progress: 0
     completed_date: null
-    published_date: null
-    notes: "11/3文化の日"
+    notes: ""
 
-  # Week 5: 11/4-11/10
   - day: 12
     slug: sec-agent-12-log-db
     title: ログDBアクセスとコンテキストエンジニアリング
     scheduled_date: 2025-12-12
     scheduled_time: "09:00"
-    writing_deadline: 2025-11-07  # Week 5金曜
+    writing_deadline: 2025-11-12
     publication_deadline: 2025-12-11
     status: not_started
     progress: 0
     completed_date: null
-    published_date: null
     notes: ""
 
   - day: 13
@@ -176,26 +160,23 @@ articles:
     title: 大量データの圧縮技術
     scheduled_date: 2025-12-13
     scheduled_time: "09:00"
-    writing_deadline: 2025-11-09  # Week 5日曜
+    writing_deadline: 2025-11-15
     publication_deadline: 2025-12-12
     status: not_started
     progress: 0
     completed_date: null
-    published_date: null
     notes: ""
 
-  # Week 6: 11/11-11/17
   - day: 14
     slug: sec-agent-14-context-compression
     title: 会話コンテキストの圧縮戦略
     scheduled_date: 2025-12-14
     scheduled_time: "09:00"
-    writing_deadline: 2025-11-14  # Week 6金曜
+    writing_deadline: 2025-11-18
     publication_deadline: 2025-12-13
     status: not_started
     progress: 0
     completed_date: null
-    published_date: null
     notes: ""
 
   - day: 15
@@ -203,12 +184,11 @@ articles:
     title: Open Policy Agentとrego入門
     scheduled_date: 2025-12-15
     scheduled_time: "09:00"
-    writing_deadline: 2025-11-16  # Week 6日曜
+    writing_deadline: 2025-11-21
     publication_deadline: 2025-12-14
     status: not_started
     progress: 0
     completed_date: null
-    published_date: null
     notes: ""
 
   - day: 16
@@ -216,26 +196,23 @@ articles:
     title: ポリシーベースの自動アクション
     scheduled_date: 2025-12-16
     scheduled_time: "09:00"
-    writing_deadline: 2025-11-17  # Week 6月曜
+    writing_deadline: 2025-11-24
     publication_deadline: 2025-12-15
     status: not_started
     progress: 0
     completed_date: null
-    published_date: null
-    notes: ""
+    notes: "11/24振替休日"
 
-  # Week 7: 11/18-11/24（11/23勤労感謝の日、11/24振替休日）
   - day: 17
     slug: sec-agent-17-ai-policy-dev
     title: AI支援によるポリシー開発
     scheduled_date: 2025-12-17
     scheduled_time: "09:00"
-    writing_deadline: 2025-11-21  # Week 7金曜
+    writing_deadline: 2025-11-27
     publication_deadline: 2025-12-16
     status: not_started
     progress: 0
     completed_date: null
-    published_date: null
     notes: ""
 
   - day: 18
@@ -243,39 +220,35 @@ articles:
     title: Plan & Execute (1) - 基礎概念
     scheduled_date: 2025-12-18
     scheduled_time: "09:00"
-    writing_deadline: 2025-11-23  # Week 7日曜（勤労感謝の日）
+    writing_deadline: 2025-11-30
     publication_deadline: 2025-12-17
     status: not_started
     progress: 0
     completed_date: null
-    published_date: null
-    notes: "11/23勤労感謝の日"
+    notes: ""
 
   - day: 19
     slug: sec-agent-19-plan-execute-advanced
     title: Plan & Execute (2) - 複雑な計画立案
     scheduled_date: 2025-12-19
     scheduled_time: "09:00"
-    writing_deadline: 2025-11-24  # Week 7月曜（振替休日）
+    writing_deadline: 2025-12-03
     publication_deadline: 2025-12-18
     status: not_started
     progress: 0
     completed_date: null
-    published_date: null
-    notes: "11/24振替休日"
+    notes: ""
 
-  # Week 8: 11/25-12/1
   - day: 20
     slug: sec-agent-20-plan-execute-replanning
     title: Plan & Execute (3) - 動的再計画
     scheduled_date: 2025-12-20
     scheduled_time: "09:00"
-    writing_deadline: 2025-11-28  # Week 8金曜
+    writing_deadline: 2025-12-06
     publication_deadline: 2025-12-19
     status: not_started
     progress: 0
     completed_date: null
-    published_date: null
     notes: ""
 
   - day: 21
@@ -283,26 +256,23 @@ articles:
     title: Embeddingによる類似アラート検索
     scheduled_date: 2025-12-21
     scheduled_time: "09:00"
-    writing_deadline: 2025-11-30  # Week 8日曜
+    writing_deadline: 2025-12-09
     publication_deadline: 2025-12-20
     status: not_started
     progress: 0
     completed_date: null
-    published_date: null
     notes: ""
 
-  # Week 9: 12/2-12/8
   - day: 22
     slug: sec-agent-22-testing
     title: ツールの信頼性を高めるテスト戦略
     scheduled_date: 2025-12-22
     scheduled_time: "09:00"
-    writing_deadline: 2025-12-05  # Week 9金曜
+    writing_deadline: 2025-12-12
     publication_deadline: 2025-12-21
     status: not_started
     progress: 0
     completed_date: null
-    published_date: null
     notes: ""
 
   - day: 23
@@ -310,26 +280,23 @@ articles:
     title: エージェントの判断精度を測る
     scheduled_date: 2025-12-23
     scheduled_time: "09:00"
-    writing_deadline: 2025-12-07  # Week 9日曜
+    writing_deadline: 2025-12-15
     publication_deadline: 2025-12-22
     status: not_started
     progress: 0
     completed_date: null
-    published_date: null
     notes: ""
 
-  # Week 10: 12/9-12/17
   - day: 24
     slug: sec-agent-24-ui-integration
     title: WebUIとSlack連携の設計
     scheduled_date: 2025-12-24
     scheduled_time: "09:00"
-    writing_deadline: 2025-12-12  # Week 10金曜
+    writing_deadline: 2025-12-18
     publication_deadline: 2025-12-23
     status: not_started
     progress: 0
     completed_date: null
-    published_date: null
     notes: ""
 
   - day: 25
@@ -337,13 +304,9 @@ articles:
     title: システム総括とマルチエージェントの未来
     scheduled_date: 2025-12-25
     scheduled_time: "09:00"
-    writing_deadline: 2025-12-14  # Week 10日曜
+    writing_deadline: 2025-12-24
     publication_deadline: 2025-12-24
     status: not_started
     progress: 0
     completed_date: null
-    published_date: null
-    notes: ""
-
-  # Week 11: 12/18-12/25（バッファ週）
-  # この週は予備期間として確保
+    notes: "最終記事"
