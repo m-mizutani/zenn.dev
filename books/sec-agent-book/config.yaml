@@ -1,0 +1,28 @@
+title: "Goで作るセキュリティ分析LLMエージェント"
+summary: "LLMエージェントをGoでフルスクラッチ実装し、セキュリティアラート分析を自動化する方法を解説。LangChainなどのフレームワークを使わず、LLM APIのみを使って実践的なエージェントを構築します。"
+topics: ["ai", "go", "security", "llm", "agent"]
+published: false
+toc_depth: 2
+price: 0
+chapters:
+  - 01-introduction
+  - 02-challenges
+  - 03-architecture
+  - 04-setup
+  - 05-llm-basics
+  - 06-structured-output
+  - 07-conversation-history
+  - 08-function-calling
+  - 09-threat-intel
+  - 10-log-db
+  - 11-prompt-engineering
+  - 12-context-subagent
+  - 13-ai-workflow
+  - 14-plan-execute
+  - 15-embedding-memory
+  - 16-memory-implementation
+  - 17-tools-agents-overview
+  - 18-testing
+  - 19-mcp
+  - 20-integration-future
+  - 21-colophon
