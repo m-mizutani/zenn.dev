@@ -5,24 +5,25 @@ published: false
 toc_depth: 2
 price: 0
 chapters:
-  - 01-introduction
-  - 02-challenges
-  - 03-architecture
-  - 04-setup
-  - 05-llm-basics
-  - 06-structured-output
-  - 07-conversation-history
-  - 08-function-calling
-  - 09-threat-intel
-  - 10-log-db
-  - 11-prompt-engineering
-  - 12-context-subagent
-  - 13-ai-workflow
-  - 14-plan-execute
-  - 15-embedding-memory
-  - 16-memory-implementation
-  - 17-tools-agents-overview
-  - 18-testing
-  - 19-mcp
-  - 20-integration-future
-  - 21-colophon
+  - 01-preface
+  - 02-introduction
+  - 03-challenges
+  - 04-architecture
+  - 05-setup
+  - 06-llm-basics
+  - 07-structured-output
+  - 08-conversation-history
+  - 09-function-calling
+  - 10-threat-intel
+  - 11-log-db
+  - 12-prompt-engineering
+  - 13-context-subagent
+  - 14-ai-workflow
+  - 15-plan-execute
+  - 16-embedding-memory
+  - 17-memory-implementation
+  - 18-tools-agents-overview
+  - 19-testing
+  - 20-mcp
+  - 21-integration-future
+  - 22-colophon
