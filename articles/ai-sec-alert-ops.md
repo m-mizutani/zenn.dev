@@ -1,6 +1,6 @@
 ---
 title: "Ubieにおける一年間のセキュリティ分析AIエージェントの運用"
-emoji: "🧠"
+emoji: "🐇"
 type: "tech" # tech: 技術記事 / idea: アイデア
 topics: ["security"]
 published: false
